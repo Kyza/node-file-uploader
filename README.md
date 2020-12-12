@@ -2,20 +2,21 @@
 
 ## What is this?
 
-A simple program that automatically uploads all *new* files in a folder to a file hoster of your choice.
+A simple program that automatically uploads all _new_ files in a folder to a file hoster of your choice.
 
 ## Installation
 
 ### Requirements
 
- - [NodeJS](https://nodejs.org/)
- - [Git](https://git-scm.com/)
+- [NodeJS](https://nodejs.org/)
+- [Git](https://git-scm.com/)
 
 ### Step 1
 
 ```bash
 git clone https://github.com/KyzaGitHub/node-file-uploader
 cd node-file-uploader
+npm i
 npm i -g .
 ```
 
@@ -52,7 +53,7 @@ You can also create a command line file to run on startup.
 node-file-uploader
 ```
 
-Save the file as whatever you want and place it in `C:\Users\[User Name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
+Save the file as `whatever-you-want.cmd` and place it in `C:\Users\[User Name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
 
 #### macOS
 

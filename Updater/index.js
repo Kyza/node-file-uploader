@@ -1,0 +1,22 @@
+const path = require("path");
+const git = require("isomorphic-git");
+const http = require("isomorphic-git/http/node");
+const fs = require("fs");
+
+const defaults = {
+	fs,
+	http,
+	corsProxy: "https://cors.isomorphic-git.org",
+	dir: process.cwd(),
+	singleBranch: true,
+};
+
+const update = async () => {
+	const oldID = await git.log(defaults)[0];
+	await git.fastForward(defaults);
+	const newID = await git.log(defaults)[0];
+	console.log(oldID, newID);
+	return oldID !== newID;
+};
+
+module.exports = { update };

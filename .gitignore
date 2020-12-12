@@ -1,3 +1,6 @@
+# Let's not leak any API keys.
+settings.json
+
 # Logs
 logs
 *.log

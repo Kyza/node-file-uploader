@@ -1,0 +1,20 @@
+{
+	"name": "NodeImageUploader",
+	"author": "Kyza",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"bin": {
+		"node-image-uploader": "index.js"
+	},
+	"dependencies": {
+		"chokidar": "^3.4.3",
+		"clipboardy": "^2.3.0",
+		"fs-extra": "^9.0.1",
+		"isomorphic-git": "^1.8.0",
+		"querystring": "^0.2.0",
+		"request": "^2.88.2"
+	}
+}

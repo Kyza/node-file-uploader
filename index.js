@@ -13,7 +13,12 @@
 	console.log("Starting uploader...");
 
 	console.log("Checking for updates...");
-	await Updater.update();
+	if (await Updater.update()) {
+		process.fork(path(process.cwd(), "index.js"), process.argv, {
+			detatched: true,
+		});
+		process.exit();
+	}
 
 	const settings = Settings.get();
 	for (const folder of settings.folders) {

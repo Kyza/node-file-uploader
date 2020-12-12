@@ -12,10 +12,9 @@ const defaults = {
 };
 
 const update = async () => {
-	const oldID = await git.log(defaults)[0];
+	const oldID = (await git.log(defaults))[0].oid;
 	await git.fastForward(defaults);
-	const newID = await git.log(defaults)[0];
-	console.log(oldID, newID);
+	const newID = (await git.log(defaults))[0].oid;
 	return oldID !== newID;
 };
 

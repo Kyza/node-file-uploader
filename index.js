@@ -11,20 +11,24 @@
 
 	console.log("Starting uploader...");
 
-	if (!fs.existsSync(path.join(process.cwd(), "settings.json"))) {
+	if (!fs.existsSync(Settings.path)) {
 		console.log("No settings.json. Read the instructions.");
 		return;
 	}
 
 	console.log("Checking for updates...");
-	if (Settings.get().automatic_updating && (await Updater.update())) {
-		console.log("Updated.\nRestarting...");
-		cp.fork(path.join(process.cwd(), "index.js"), process.argv, {
-			detatched: true,
-		});
-		return;
+	try {
+		if (Settings.get().automatic_updating && (await Updater.update())) {
+			console.log("Updated.\nRestarting...");
+			cp.fork(path.join(process.cwd(), "index.js"), process.argv, {
+				detatched: true,
+			});
+			return;
+		}
+		console.log("No new version.");
+	} catch (e) {
+		console.error(`Error checking for updates.\n${e.toString()}\n${__dirname}`);
 	}
-	console.log("No new version.");
 
 	const settings = Settings.get();
 	for (const folder of settings.folders) {

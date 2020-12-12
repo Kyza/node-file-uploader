@@ -2,8 +2,6 @@
 (async () => {
 	const fs = require("fs-extra");
 	const path = require("path");
-	const request = require("request");
-	const clipboardy = require("clipboardy");
 	const chokidar = require("chokidar");
 
 	const Updater = require("./Updater");
@@ -12,13 +10,20 @@
 
 	console.log("Starting uploader...");
 
+	if (!fs.existsSync(path.join(process.cwd(), "settings.json"))) {
+		console.log("No settings.json. Read the instructions.");
+		process.exit();
+	}
+
 	console.log("Checking for updates...");
-	if (await Updater.update()) {
-		process.fork(path(process.cwd(), "index.js"), process.argv, {
+	if (Settings.get().automatic_updating && (await Updater.update())) {
+		console.log("Updated.\nRestarting...");
+		process.fork(path.join(process.cwd(), "index.js"), process.argv, {
 			detatched: true,
 		});
 		process.exit();
 	}
+	console.log("No new version.");
 
 	const settings = Settings.get();
 	for (const folder of settings.folders) {

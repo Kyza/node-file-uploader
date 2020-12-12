@@ -52,7 +52,7 @@ You can also create a command line file to run on startup.
 node-file-uploader
 ```
 
-Save the file as `whatever-you-want.cmd` and place it in `C:\Users\[User Name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
+Save the file as `whatever-you-want.cmd` (DO NOT NAME IT `node-file-uploader.cmd`) and place it in `C:\Users\[User Name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
 
 #### macOS
 

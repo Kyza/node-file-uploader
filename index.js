@@ -13,7 +13,7 @@
 
 	if (!fs.existsSync(path.join(process.cwd(), "settings.json"))) {
 		console.log("No settings.json. Read the instructions.");
-		process.exit();
+		return;
 	}
 
 	console.log("Checking for updates...");
@@ -22,7 +22,7 @@
 		cp.fork(path.join(process.cwd(), "index.js"), process.argv, {
 			detatched: true,
 		});
-		process.exit();
+		return;
 	}
 	console.log("No new version.");
 

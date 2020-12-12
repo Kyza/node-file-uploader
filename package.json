@@ -7,7 +7,7 @@
 		"start": "node index.js"
 	},
 	"bin": {
-		"node-image-uploader": "index.js"
+		"node-file-uploader": "index.js"
 	},
 	"dependencies": {
 		"chokidar": "^3.4.3",

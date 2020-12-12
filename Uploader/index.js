@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const request = require("request");
 const clipboardy = require("clipboardy");
+const notifier = require("node-notifier");
 
 const Settings = require("../SettingsHandler");
 
@@ -27,9 +28,9 @@ const upload = (file) => {
 		},
 		function (error, response, body) {
 			if (!error && response.statusCode == 200) {
+				let result;
 				if (settings.link_path === "") {
-					console.log(body);
-					clipboardy.writeSync(body);
+					result = body;
 				} else {
 					const linkPath = settings.link_path.split(".");
 					// Only JSON supported for now.
@@ -37,9 +38,41 @@ const upload = (file) => {
 					for (let i = 0; i < linkPath.length; i++) {
 						current = current[linkPath[i]];
 					}
-					console.log(current);
-					clipboardy.writeSync(current);
+					result = current;
 				}
+				console.log(result);
+				notifier.notify({
+					appID: "Node File Uploader",
+					title: "Node File Uploader",
+					subtitle: undefined,
+					message: result,
+					sound: false,
+					icon: file,
+					contentImage: file,
+					open: undefined,
+					timeout: 5,
+					closeLabel: undefined,
+					actions: undefined,
+					dropdownLabel: undefined,
+					reply: false,
+				});
+				clipboardy.writeSync(result);
+			} else {
+				notifier.notify({
+					appID: "Node File Uploader",
+					title: "Node File Uploader",
+					subtitle: undefined,
+					message: `There was an error uploading the file.\n${file}`,
+					sound: false,
+					icon: file,
+					contentImage: file,
+					open: undefined,
+					timeout: 5,
+					closeLabel: undefined,
+					actions: undefined,
+					dropdownLabel: undefined,
+					reply: false,
+				});
 			}
 		}
 	);

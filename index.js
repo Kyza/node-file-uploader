@@ -20,7 +20,7 @@
 	try {
 		if (Settings.get().automatic_updating && (await Updater.update())) {
 			console.log("Updated.\nRestarting...");
-			cp.fork(path.join(process.cwd(), "index.js"), process.argv, {
+			cp.fork(path.join(__dirname, "index.js"), process.argv, {
 				detatched: true,
 			});
 			return;

@@ -7,7 +7,7 @@ const defaults = {
 	fs,
 	http,
 	corsProxy: "https://cors.isomorphic-git.org",
-	dir: __dirname,
+	dir: path.join(__dirname, ".."),
 	singleBranch: true,
 };
 

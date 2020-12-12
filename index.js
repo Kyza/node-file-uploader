@@ -3,6 +3,7 @@
 	const fs = require("fs-extra");
 	const path = require("path");
 	const chokidar = require("chokidar");
+	const cp = require("child_process");
 
 	const Updater = require("./Updater");
 	const Uploader = require("./Uploader");
@@ -18,7 +19,7 @@
 	console.log("Checking for updates...");
 	if (Settings.get().automatic_updating && (await Updater.update())) {
 		console.log("Updated.\nRestarting...");
-		process.fork(path.join(process.cwd(), "index.js"), process.argv, {
+		cp.fork(path.join(process.cwd(), "index.js"), process.argv, {
 			detatched: true,
 		});
 		process.exit();

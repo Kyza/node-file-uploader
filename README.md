@@ -28,14 +28,15 @@ Copy this example into a file called `settings.json` and adjust as needed.
 
 ```json
 {
-	"folders": ["C:/Users/Kyza/Pictures/Snipaste"], // Handles subfolders!
-	"url": "https://api.pxl.blue/upload/sharex",
+	"folders": ["C:/Users/Kyza/Pictures/Snipaste"],
+	"url": "https://api.pxl.blue/upload/extra",
 	"file_form_name": "file",
 	"form_options": {
 		"key": "",
 		"host": "pxl_rand"
 	},
-	"link_path": "",
+	"url_path": "url",
+	"deletion_url_path": "deletionUrl",
 	"automatic_updating": true
 }
 ```

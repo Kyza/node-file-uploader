@@ -28,24 +28,35 @@ const upload = (file) => {
 		},
 		function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				let result;
-				if (settings.link_path === "") {
-					result = body;
-				} else {
-					const linkPath = settings.link_path.split(".");
+				let url;
+				let deletionURL;
+
+				if (settings.url_path !== "") {
+					const urlPath = settings.url_path.split(".");
 					// Only JSON supported for now.
-					const current = JSON.parse(body);
-					for (let i = 0; i < linkPath.length; i++) {
-						current = current[linkPath[i]];
+					let current = JSON.parse(body);
+					for (let i = 0; i < urlPath.length; i++) {
+						current = current[urlPath[i]];
 					}
-					result = current;
+					url = current;
+				} else {
+					url = body;
 				}
-				console.log(result);
+				if (settings.deletion_url_path !== "") {
+					const deletionURLPath = settings.deletion_url_path.split(".");
+					// Only JSON supported for now.
+					let current = JSON.parse(body);
+					for (let i = 0; i < deletionURLPath.length; i++) {
+						current = current[deletionURLPath[i]];
+					}
+					deletionURL = current;
+				}
+
 				notifier.notify({
 					appID: "Node File Uploader",
 					title: "Node File Uploader",
 					subtitle: undefined,
-					message: result,
+					message: url,
 					sound: false,
 					icon: file,
 					contentImage: file,
@@ -56,7 +67,7 @@ const upload = (file) => {
 					dropdownLabel: undefined,
 					reply: false,
 				});
-				clipboardy.writeSync(result);
+				clipboardy.writeSync(url);
 			} else {
 				notifier.notify({
 					appID: "Node File Uploader",

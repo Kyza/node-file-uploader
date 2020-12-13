@@ -56,7 +56,7 @@ const upload = (file) => {
 					appID: "Node File Uploader",
 					title: "Node File Uploader",
 					subtitle: undefined,
-					message: url,
+					message: `${url}\n${deletionURL}`,
 					sound: false,
 					icon: file,
 					contentImage: file,
@@ -69,6 +69,7 @@ const upload = (file) => {
 				});
 				clipboardy.writeSync(url);
 			} else {
+				console.error(error);
 				notifier.notify({
 					appID: "Node File Uploader",
 					title: "Node File Uploader",

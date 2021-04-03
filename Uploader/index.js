@@ -1,8 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const request = require("request");
-const clipboardy = require("clipboardy");
-const notifier = require("node-notifier");
+const { clipboard, Notification } = require("electron");
 
 const Settings = require("../SettingsHandler");
 
@@ -52,39 +51,30 @@ const upload = (file) => {
 					deletionURL = current;
 				}
 
-				notifier.notify({
-					appID: "Node File Uploader",
+				clipboard.writeText(url);
+
+				const notification = new Notification({
 					title: "Node File Uploader",
-					subtitle: undefined,
-					message: `${url}\n${deletionURL}`,
-					sound: false,
+					body: `Finished uploading.\n${file}`,
 					icon: file,
-					contentImage: file,
-					open: undefined,
-					timeout: 5,
-					closeLabel: undefined,
-					actions: undefined,
-					dropdownLabel: undefined,
-					reply: false,
+					silent: true,
 				});
-				clipboardy.writeSync(url);
+
+				notification.show();
 			} else {
 				console.error(error);
-				notifier.notify({
-					appID: "Node File Uploader",
+				const notification = new Notification({
 					title: "Node File Uploader",
-					subtitle: undefined,
-					message: `There was an error uploading the file.\n${file}`,
-					sound: false,
+					body: `There was an error uploading the file.\nClose notification to retry.\n${file}`,
 					icon: file,
-					contentImage: file,
-					open: undefined,
-					timeout: 5,
-					closeLabel: undefined,
-					actions: undefined,
-					dropdownLabel: undefined,
-					reply: false,
+					silent: true,
 				});
+
+				notification.on("close", (event) => {
+					upload(file);
+				});
+
+				notification.show();
 			}
 		}
 	);

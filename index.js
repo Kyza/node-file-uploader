@@ -1,10 +1,53 @@
 #!/usr/bin/env node
-(async () => {
+const { app, Menu, Tray, Notification } = require("electron");
+
+console.log("Starting.");
+
+const fs = require("fs-extra");
+const path = require("path");
+const chokidar = require("chokidar");
+const cp = require("child_process");
+
+if (!app) {
+	console.log("Starting as electron app.");
+	const electronProcess = cp.execFile(
+		path.join(__dirname, "node_modules", "electron", "dist", "electron.exe"),
+		[__dirname],
+		{ encoding: "buffer" },
+		(error, stdout, stderr) => {
+			if (error) {
+				throw error;
+			}
+			console.log(stdout);
+			console.error(stderr);
+		}
+	);
+	electronProcess.stdout.on("data", (data) => {
+		console.log(`${data}`.trim());
+	});
+	electronProcess.stderr.on("data", (data) => {
+		console.error(`${data}`.trim());
+	});
+	return;
+}
+
+let tray;
+
+app.whenReady().then(async () => {
 	try {
-		const fs = require("fs-extra");
-		const path = require("path");
-		const chokidar = require("chokidar");
-		const cp = require("child_process");
+		app.setAppUserModelId("Node File Uploader");
+
+		tray = new Tray("C:/Users/Kyza/Pictures/Snipaste/2020-12-12_18-00-28.png");
+		const contextMenu = Menu.buildFromTemplate([
+			{ label: "Item1", type: "radio" },
+			{ label: "Item2", type: "radio" },
+		]);
+
+		// Make a change to the context menu
+		contextMenu.items[1].checked = false;
+
+		// Call this again for Linux because we modified the context menu
+		tray.setContextMenu(contextMenu);
 
 		const Updater = require("./Updater");
 		const Uploader = require("./Uploader");
@@ -58,4 +101,8 @@
 		);
 		console.error(e);
 	}
-})();
+});
+
+app.once("will-quit", () => {
+	tray = null;
+});
